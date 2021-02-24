@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>SWatcher - Services Watcher</title>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    </head>
+    <body class="bg-dark">
+        <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">SWatcher</a>
+            <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link" href="#">Sign out</a>
+                </li>
+            </ul>
+        </header>
+        <div class="container-fluid">
+            <div class="row">
+                <nav th:replace="fragments/sidebarMenu"></nav>
+                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2" style="color: wheat">Dashboard</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">v1</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">v2</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <table id="servicesStatusTable" class="table table-dark table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">name</th>
+                                    <th scope="col">cpu usage</th>
+                                    <th scope="col">mem usage</th>
+                                    <th scope="col">status</th>
+                                    <th scope="col">time</th>
+                                </tr>
+                                </thead>
+                                <tbody id="servicesStatus">
+                                </tbody>
+                            </table>
+                        </div>
+                        <script>
+                            if(typeof(EventSource) !== "undefined") {
+                                const source = new EventSource("/api/v1/service/status");
+                                source.onmessage = function(event) {
+                                    renderServicesStatus(event)
+                                };
+                            } else {
+                                document.getElementById("result").innerHTML = "Sorry, your browser does not support server-sent events...";
+                            }
+
+                            function renderServicesStatus(event) {
+                                document.getElementById("servicesStatus").innerHTML = ""
+                                const servicesStatus = JSON.parse(event.data);
+                                servicesStatus.forEach(function(item, i, arr) {
+                                    document.getElementById("servicesStatus").insertRow(-1).innerHTML = '' +
+                                        '<th scope="row">' + '<a href="/service/' + item.name + '">' + item.name + '</a>' + '</th>\n' +
+                                        '<td>' + item.cpuUsage + '</td>\n' +
+                                        '<td>' + item.memUsage + '</td>\n' +
+                                        '<td><span class="badge bg-success">' + item.status + '</span></td>\n' +
+                                        '<td>' + item.time + '</td>';
+                                });
+                            }
+                        </script>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- Optional JavaScript; choose one of the two! -->
+        <!-- Option 1: Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+        <!-- Option 2: Separate Popper and Bootstrap JS -->
+        <!--
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+        -->
+    </body>
+</html>
