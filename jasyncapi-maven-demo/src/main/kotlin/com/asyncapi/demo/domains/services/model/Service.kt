@@ -13,9 +13,36 @@ class Service(
         @Column(unique = false, nullable = false)
         var address: String = "",
         @Column(name = "registered_at", unique = false, nullable = false)
-        var registeredAt: ZonedDateTime = ZonedDateTime.now(ZoneId.of("UTC+3")),
+        var registeredAt: ZonedDateTime = ZonedDateTime.now(ZoneId.of("Europe/Moscow")),
         @Column(name = "health_check_endpoint", unique = false, nullable = false)
         var healthCheckEndpoint: String = "",
         @Column(name = "is_enabled", unique = false, nullable = false)
         var isEnabled: Boolean = false
-)
+) {
+
+        override fun equals(other: Any?): Boolean {
+                other ?: return false
+                if (other !is Service) {
+                        return false
+                }
+
+                return if (other.name != this.name) {
+                        false
+                } else if (other.address != this.address) {
+                        false
+                } else if (other.registeredAt != this.registeredAt) {
+                        false
+                } else if (other.healthCheckEndpoint != this.healthCheckEndpoint) {
+                        false
+                } else other.isEnabled == this.isEnabled
+        }
+
+        override fun hashCode(): Int {
+                return name.hashCode() +
+                        address.hashCode() +
+                        registeredAt.hashCode() +
+                        healthCheckEndpoint.hashCode() +
+                        isEnabled.hashCode()
+        }
+
+}

@@ -19,7 +19,7 @@ class ServiceStatusService {
     fun getStatus(serviceId: String): ServiceStatus {
         val cpuUsage = mockValue(10.00, 17.00)
         val memUsage = mockValue(18.00, 25.00)
-        val time = ZonedDateTime.now(ZoneId.of("UTC+3"))
+        val time = ZonedDateTime.now(ZoneId.of("Europe/Moscow"))
 
         return ServiceStatus(serviceId, cpuUsage, memUsage, Status.UP, time)
     }
@@ -29,7 +29,7 @@ class ServiceStatusService {
         for (service in servicesRepository.findAll()) {
             val cpuUsage = mockValue(10.00, 17.00)
             val memUsage = mockValue(10.00, 25.00)
-            val time = ZonedDateTime.now(ZoneId.of("UTC+3"))
+            val time = ZonedDateTime.now(ZoneId.of("Europe/Moscow"))
 
             serviceStatuses.add(ServiceStatus(service.name, cpuUsage, memUsage, Status.UP, time))
         }
