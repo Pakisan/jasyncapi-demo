@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>com.asyncapi</groupId>
-    <artifactId>asyncapi-maven-demo</artifactId>
+    <artifactId>jasyncapi-maven-demo</artifactId>
     <version>1.0.0-EAP</version>
 
     <properties>

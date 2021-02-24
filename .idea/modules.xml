@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/asyncapi-demo.iml" filepath="$PROJECT_DIR$/asyncapi-demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/asyncapi-maven-demo/asyncapi-maven-demo.iml" filepath="$PROJECT_DIR$/asyncapi-maven-demo/asyncapi-maven-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jasyncapi-demo.iml" filepath="$PROJECT_DIR$/jasyncapi-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jasyncapi-maven-demo/jasyncapi-maven-demo.iml" filepath="$PROJECT_DIR$/jasyncapi-maven-demo/jasyncapi-maven-demo.iml" />
     </modules>
   </component>
 </project>
